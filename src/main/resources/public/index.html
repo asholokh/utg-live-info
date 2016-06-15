@@ -17,10 +17,6 @@
     fill: steelblue;
   }
 
-  .x.axis path {
-    display: none;
-  }
-
 </style>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
@@ -65,9 +61,7 @@
       d.total = d.ages[d.ages.length - 1].y1;
     });
 
-    data.sort(function(a, b) { return b.total - a.total; });
-
-    x.domain(data.map(function(d) { return d.State; }));
+    x.domain(data.map(function(d) { return d.Date; }));
     y.domain([0, d3.max(data, function(d) { return d.total; })]);
 
     svg.append("g")
@@ -89,7 +83,7 @@
       .data(data)
       .enter().append("g")
       .attr("class", "g")
-      .attr("transform", function(d) { return "translate(" + x(d.State) + ",0)"; });
+      .attr("transform", function(d) { return "translate(" + x(d.Date) + ",0)"; });
 
     state.selectAll("rect")
       .data(function(d) { return d.ages; })
