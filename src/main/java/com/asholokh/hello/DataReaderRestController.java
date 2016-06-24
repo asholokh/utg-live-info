@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 by Eyefreight BV (www.eyefreight.com). All rights reserved.
+ * Copyright (c) 2016 by Eyefreight BV (www.eyefreight.com). All rights reserved.
  *
  * This software is provided by the copyright holder and contributors "as is" and any express or implied warranties, including, but
  * not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall
@@ -11,14 +11,24 @@
 package com.asholokh.hello;
 
 import java.io.IOException;
+import java.util.List;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class HelloController {
-  @RequestMapping("/")
-  public String index() throws IOException {
-    return "index.html";
+/**
+ * TODO javadoc
+ *
+ * @autor a.sholokh
+ */
+@RestController
+public class DataReaderRestController {
+  @Autowired
+  private ResourceReader resourceReader;
+
+  @RequestMapping("/data")
+  public List<GasDto> readData() throws IOException {
+    return resourceReader.readData();
   }
 }

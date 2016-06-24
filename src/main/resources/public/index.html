@@ -50,7 +50,16 @@
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.csv("data.csv", function(error, data) {
+  d3.json("/data", function(error, json) {
+    if (error) return console.warn(error);
+    draw(d3, json);
+  })
+
+  function draw(d3, data) {
+
+  }
+
+/*  d3.csv("data.csv", function(error, data) {
     if (error) throw error;
 
     color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Date"; }));
@@ -112,6 +121,6 @@
       .style("text-anchor", "end")
       .text(function(d) { return d; });
 
-  });
+  });*/
 
 </script>

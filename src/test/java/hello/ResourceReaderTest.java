@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 by Eyefreight BV (www.eyefreight.com). All rights reserved.
+ * Copyright (c) 2016 by Eyefreight BV (www.eyefreight.com). All rights reserved.
  *
  * This software is provided by the copyright holder and contributors "as is" and any express or implied warranties, including, but
  * not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall
@@ -8,17 +8,31 @@
  * interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  */
-package com.asholokh.hello;
+package hello;
 
 import java.io.IOException;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Controller
-public class HelloController {
-  @RequestMapping("/")
-  public String index() throws IOException {
-    return "index.html";
+import com.asholokh.hello.Application;
+import com.asholokh.hello.ResourceReader;
+
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+public class ResourceReaderTest {
+  @Autowired
+  private ResourceReader resourceReader;
+
+  @Test
+  public void testReadData() throws IOException {
+    Object result = resourceReader.readData();
+
+    assertNotNull(result);
   }
 }
