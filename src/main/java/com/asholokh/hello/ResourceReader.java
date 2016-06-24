@@ -13,8 +13,8 @@ package com.asholokh.hello;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -64,7 +64,8 @@ public class ResourceReader {
         String day = linkHref.split("_")[2].split("\\.")[0];
         String month = linkHref.split("_")[2].split("\\.")[1];
         String year = linkHref.split("_")[2].split("\\.")[2];
-        LocalDate date = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+        Calendar date = Calendar.getInstance();
+        date.set(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
         dto.setDate(date);
 

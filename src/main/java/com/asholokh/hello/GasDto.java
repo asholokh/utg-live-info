@@ -10,7 +10,7 @@
  */
 package com.asholokh.hello;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 
 /**
  * TODO javadoc
@@ -18,16 +18,16 @@ import java.time.LocalDate;
  * @autor a.sholokh
  */
 public class GasDto {
-  private LocalDate date;
+  private Calendar date;
   private int ukrgazvydobuvannya;
   private int ukrnafta;
   private int others;
 
-  public LocalDate getDate() {
+  public Calendar getDate() {
     return date;
   }
 
-  public void setDate(LocalDate date) {
+  public void setDate(Calendar date) {
     this.date = date;
   }
 
