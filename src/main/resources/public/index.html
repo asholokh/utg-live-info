@@ -16,13 +16,12 @@
   .bar {
     fill: steelblue;
   }
-
 </style>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
 
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+  var margin = {top: 20, right: 200, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -33,7 +32,7 @@
     .rangeRound([height, 0]);
 
   var color = d3.scale.ordinal()
-    .range(["green", "blue", "orange"]);
+    .range(["#98abc5", "#8a89a6", "#7b6888"]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -50,27 +49,21 @@
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("/data", function(error, json) {
-    if (error) return console.warn(error);
-    draw(d3, json);
-  })
-
-  function draw(d3, data) {
-
-  }
-
-/*  d3.csv("data.csv", function(error, data) {
+  d3.json("/data", function(error, data) {
     if (error) throw error;
 
-    color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Date"; }));
+    color.domain(["Укргазвидобування", "Укрнафта", "Інші"]);
 
     data.forEach(function(d) {
-      var y0 = 0;
-      d.ages = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
-      d.total = d.ages[d.ages.length - 1].y1;
+      d.amounts = [{name: "Укргазвидобування", amount: d.ukrgazvydobuvannya, color: color[0], y0:0, y1:d.ukrgazvydobuvannya},
+                   {name: "Укрнафта" , amount: d.ukrnafta,                    color: color[1], y0:d.ukrgazvydobuvannya, y1:(d.ukrgazvydobuvannya+ d.ukrnafta)},
+                   {name: "Інші" , amount: d.others,                          color: color[2], y0:(d.ukrgazvydobuvannya+ d.ukrnafta), y1:(d.ukrgazvydobuvannya+ d.ukrnafta + d.others)}];
+      d.total = d.ukrgazvydobuvannya + d.ukrnafta + d.others;
     });
 
-    x.domain(data.map(function(d) { return d.Date; }));
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    x.domain(data.map(function(d) { var date = new Date(d.date); return date.getDate() + "-" + months[date.getMonth() - 1]; }));
     y.domain([0, d3.max(data, function(d) { return d.total; })]);
 
     svg.append("g")
@@ -78,29 +71,31 @@
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
+    // Draw y axis text
     svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 3)
-      .attr("dy", ".71em")
+      .attr("transform", "rotate(0)")
+      .attr("y", -25)
+      .attr("dy", "1.5em")
       .style("text-anchor", "end")
-      .text("Факт, тис. м3");
+      .text("тис. м3");
 
     var state = svg.selectAll(".state")
       .data(data)
       .enter().append("g")
       .attr("class", "g")
-      .attr("transform", function(d) { return "translate(" + x(d.Date) + ",0)"; });
+      .attr("transform", function(d) { return "translate(" + x(new Date(d.date).getDate() + "-" + months[new Date(d.date).getMonth() - 1]) + ",0)"; });
 
     state.selectAll("rect")
-      .data(function(d) { return d.ages; })
-      .enter().append("rect")
+      .data(function(d) { return d.amounts; })
+      .enter()
+      .append("rect")
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.y1); })
-      .attr("height", function(d) { return y(d.y0) - y(d.y1); })
-      .style("fill", function(d) { return color(d.name); });
+      .attr("y", function (d) { return y(d.y1); })
+      .attr("height", function (d) { return y(d.y0) - y(d.y1); })
+      .style("fill", function(d) {return color(d.name);});
 
     var legend = svg.selectAll(".legend")
       .data(color.domain().slice().reverse())
@@ -109,18 +104,18 @@
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
     legend.append("rect")
-      .attr("x", width - 18)
+      .attr("x", width +20)
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", color);
 
     legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", width + 140)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
       .text(function(d) { return d; });
 
-  });*/
+  });
 
 </script>
