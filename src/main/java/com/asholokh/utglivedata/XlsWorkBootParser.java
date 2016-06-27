@@ -8,33 +8,25 @@
  * interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  */
-package hello;
+package com.asholokh.utglivedata;
 
-import java.io.IOException;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.asholokh.hello.Application;
-import com.asholokh.hello.ResourceReader;
-
-import static org.junit.Assert.assertNotNull;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@Ignore
-public class ResourceReaderTest {
-  @Autowired
-  private ResourceReader resourceReader;
-
-  @Test
-  public void testReadData() throws IOException {
-    Object result = resourceReader.readData();
-
-    assertNotNull(result);
+/**
+ * TODO javadoc
+ *
+ * @autor a.sholokh
+ */
+@Component
+public class XlsWorkBootParser {
+  public void parse(XSSFWorkbook workBook, GasDto dto) {
+    XSSFCell ukrGazVydobuvannyaCell = workBook.getSheetAt(0).getRow(7).getCell(2);
+    XSSFCell ukrNaftaCell = workBook.getSheetAt(0).getRow(8).getCell(2);
+    XSSFCell othersCell = workBook.getSheetAt(0).getRow(9).getCell(2);
+    dto.setUkrgazvydobuvannya(Double.valueOf(ukrGazVydobuvannyaCell.getNumericCellValue()).intValue());
+    dto.setUkrnafta(Double.valueOf(ukrNaftaCell.getNumericCellValue()).intValue());
+    dto.setOthers(Double.valueOf(othersCell.getNumericCellValue()).intValue());
   }
 }

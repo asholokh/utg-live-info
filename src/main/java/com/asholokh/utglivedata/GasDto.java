@@ -8,12 +8,18 @@
  * interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  */
-package com.asholokh.hello;
+package com.asholokh.utglivedata;
 
 import java.util.Calendar;
 
 /**
- * TODO javadoc
+ * DTO to handle Gaz extraction information for date specified in <code>date</code> attribute. This information consists of Gaz extractions volumes for the
+ * following companies:
+ * <ul>
+ * <li>Ukrgazvydobuvannya</li>
+ * <li>Ukrnafta</li>
+ * <li>Other companies</li>
+ * </ul>
  *
  * @autor a.sholokh
  */

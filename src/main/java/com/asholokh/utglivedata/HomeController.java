@@ -8,7 +8,7 @@
  * interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
  */
-package com.asholokh.hello;
+package com.asholokh.utglivedata;
 
 import java.io.IOException;
 
@@ -16,7 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HelloController {
+public class HomeController {
+
   @RequestMapping("/")
   public String index() throws IOException {
     return "index.html";
