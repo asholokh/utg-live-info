@@ -95,7 +95,12 @@
       .attr("width", x.rangeBand())
       .attr("y", function (d) { return y(d.y1); })
       .attr("height", function (d) { return y(d.y0) - y(d.y1); })
-      .style("fill", function(d) {return color(d.name);});
+      .style("fill", function(d) {return color(d.name);})
+      .on({
+        "mouseover": function() { this.style.strokeWidth = 1; this.style.stroke='black'; },
+        "mouseout":  function() { this.style.strokeWidth = 0; this.style.stroke=null; },
+        "click":  function() { /* do stuff */ },
+      });
 
     var legend = svg.selectAll(".legend")
       .data(color.domain().slice().reverse())
