@@ -6,7 +6,7 @@
   <groupId>com.asholokh.hello</groupId>
   <artifactId>utg-live-info</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <name>utg-live-info</name>
   <description>Ukrtransgaz live information visualization</description>
