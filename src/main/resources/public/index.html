@@ -49,7 +49,7 @@
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("/data", function(error, data) {
+  d3.json("/utg-live-info/data", function(error, data) {
     if (error) throw error;
 
     color.domain(["Укргазвидобування", "Укрнафта", "Інші"]);
