@@ -1,4 +1,4 @@
-package utglivedata;
+package com.asholokh.utglivedata;
 
 import java.net.URL;
 
@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
-
-import com.asholokh.utglivedata.Application;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;

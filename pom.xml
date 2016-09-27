@@ -53,6 +53,13 @@
       <artifactId>poi-ooxml</artifactId>
       <version>3.11</version>
     </dependency>
+
+    <!-- For unrar archive with data -->
+    <dependency>
+      <groupId>com.github.junrar</groupId>
+      <artifactId>junrar</artifactId>
+      <version>0.7</version>
+    </dependency>
   </dependencies>
 
   <build>
