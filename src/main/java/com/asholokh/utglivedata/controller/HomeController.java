@@ -1,4 +1,4 @@
-package com.asholokh.utglivedata.web;
+package com.asholokh.utglivedata.controller;
 
 import java.io.IOException;
 

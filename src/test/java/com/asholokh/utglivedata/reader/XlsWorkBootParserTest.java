@@ -41,7 +41,7 @@ public class XlsWorkBootParserTest {
     createCell(row9, 1, 32);
     createCell(row9, 2, 33);
 
-    GasDto resultDto = new XlsWorkBootParser().parse(workbook);
+    GasDto resultDto = new XlsWorkBookParser().parse(workbook);
 
     assertEquals(13, resultDto.getUkrgazvydobuvannya());
     assertEquals(23, resultDto.getUkrnafta());

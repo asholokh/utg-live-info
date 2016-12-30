@@ -15,6 +15,8 @@ import java.util.Calendar;
  */
 public class GasDto {
   private Calendar date;
+  private Calendar dateFrom;
+  private Calendar dateTo;
   private int ukrgazvydobuvannya;
   private int ukrnafta;
   private int others;
@@ -49,5 +51,20 @@ public class GasDto {
 
   public void setOthers(int others) {
     this.others = others;
+  }
+  public Calendar getDateFrom() {
+    return dateFrom;
+  }
+
+  public void setDateFrom(Calendar dateFrom) {
+    this.dateFrom = dateFrom;
+  }
+
+  public Calendar getDateTo() {
+    return dateTo;
+  }
+
+  public void setDateTo(Calendar dateTo) {
+    this.dateTo = dateTo;
   }
 }

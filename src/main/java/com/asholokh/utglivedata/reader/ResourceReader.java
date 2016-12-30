@@ -39,7 +39,7 @@ import com.github.junrar.rarfile.FileHeader;
 @Component
 public class ResourceReader {
   @Autowired
-  private XlsWorkBootParser xlsWorkBootParser;
+  private XlsWorkBookParser xlsWorkBootParser;
   @Value("${gaz.production.data.url}")
   private String url;
 
@@ -57,23 +57,11 @@ public class ResourceReader {
       if (linkHref.endsWith(".xlsx")) {
         ClientHttpRequest req = restTemplate.getRequestFactory().createRequest(URI.create(url+linkHref), HttpMethod.GET);
         ClientHttpResponse res = req.execute();
-
-        XSSFWorkbook workBook = new XSSFWorkbook(res.getBody());
-        GasDto dto = xlsWorkBootParser.parse(workBook);
-
-        String day = linkHref.split("_")[2].split("\\.")[0];
-        String month = linkHref.split("_")[2].split("\\.")[1];
-        String year = linkHref.split("_")[2].split("\\.")[2];
-        Calendar date = Calendar.getInstance();
-        date.set(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
-        dto.setDate(date);
-
+        GasDto dto = readWorkBookData(linkHref, res.getBody());
         result.add(dto);
       } else if (linkHref.endsWith(".rar")) {
         ClientHttpRequest req = restTemplate.getRequestFactory().createRequest(URI.create(url+linkHref), HttpMethod.GET);
         ClientHttpResponse res = req.execute();
-
         File file = File.createTempFile("prefix", "sufix");
         OutputStream outputStream = new FileOutputStream(file);
         IOUtils.copy(res.getBody(), outputStream);
@@ -81,24 +69,27 @@ public class ResourceReader {
 
         Archive archive = new Archive(file);
         for (FileHeader fileHeader: archive.getFileHeaders()) {
-          String fileName = fileHeader.getFileNameString();
-          InputStream fileFromArchive = archive.getInputStream(fileHeader);
-          XSSFWorkbook workBook = new XSSFWorkbook(fileFromArchive);
-          GasDto dto = xlsWorkBootParser.parse(workBook);
-
-          String day = fileName.split("_")[2].split("\\.")[0];
-          String month = fileName.split("_")[2].split("\\.")[1];
-          String year = fileName.split("_")[2].split("\\.")[2];
-          Calendar date = Calendar.getInstance();
-          date.set(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
-          dto.setDate(date);
-
+          String fileNameFromArchive = fileHeader.getFileNameString();
+          GasDto dto = readWorkBookData(fileNameFromArchive, archive.getInputStream(fileHeader));
           result.add(dto);
         }
       }
     }
     return result;
+  }
+
+  private GasDto readWorkBookData(String fileName, InputStream res) throws IOException {
+    XSSFWorkbook workBook = new XSSFWorkbook(res);
+    GasDto dto = xlsWorkBootParser.parse(workBook);
+
+    String day = fileName.split("_")[2].split("\\.")[0];
+    String month = fileName.split("_")[2].split("\\.")[1];
+    String year = fileName.split("_")[2].split("\\.")[2];
+    Calendar date = Calendar.getInstance();
+    date.set(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day));
+
+    dto.setDate(date);
+    return dto;
   }
 
 }

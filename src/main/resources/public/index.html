@@ -1,126 +1,44 @@
+<html>
+<head>
+  <!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-  body {
-    font: 10px sans-serif;
-  }
+  <title>УкрТрансГаз - оперативна інформація</title>
 
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Application scripts-->
+  <script src="chart.js"></script>
+  <script src="application.js"></script>
+  <!-- Application CSS -->
+  <link href="application.css" rel="stylesheet">
+</head>
 
-  .bar {
-    fill: steelblue;
-  }
-</style>
 <body>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-
-  var margin = {top: 20, right: 200, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-  var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-  var y = d3.scale.linear()
-    .rangeRound([height, 0]);
-
-  var color = d3.scale.ordinal()
-    .range(["#7b6888", "#8a89a6", "#98abc5"]);
-
-  var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    .tickFormat(d3.format(".2s"));
-
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  d3.json("/utg-live-info/data", function(error, data) {
-    if (error) throw error;
-
-    color.domain(["Укргазвидобування", "Укрнафта", "Інші"]);
-
-    data.forEach(function(d) {
-      d.amounts = [{name: "Укргазвидобування", amount: d.ukrgazvydobuvannya, color: color[0], y0:0, y1:d.ukrgazvydobuvannya},
-                   {name: "Укрнафта" , amount: d.ukrnafta,                    color: color[1], y0:d.ukrgazvydobuvannya, y1:(d.ukrgazvydobuvannya+ d.ukrnafta)},
-                   {name: "Інші" , amount: d.others,                          color: color[2], y0:(d.ukrgazvydobuvannya+ d.ukrnafta), y1:(d.ukrgazvydobuvannya+ d.ukrnafta + d.others)}];
-      d.total = d.ukrgazvydobuvannya + d.ukrnafta + d.others;
-    });
-
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-    x.domain(data.map(function(d) { var date = new Date(d.date); return date.getDate() + "-" + months[date.getMonth() - 1]; }));
-    y.domain([0, d3.max(data, function(d) { return d.total; })]);
-
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-    // Draw y axis text
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-      .append("text")
-      .attr("transform", "rotate(0)")
-      .attr("y", -25)
-      .attr("dy", "1.5em")
-      .style("text-anchor", "end")
-      .text("тис. м3");
-
-    var state = svg.selectAll(".state")
-      .data(data)
-      .enter().append("g")
-      .attr("class", "g")
-      .attr("transform", function(d) { return "translate(" + x(new Date(d.date).getDate() + "-" + months[new Date(d.date).getMonth() - 1]) + ",0)"; });
-
-    state.selectAll("rect")
-      .data(function(d) { return d.amounts; })
-      .enter()
-      .append("rect")
-      .attr("width", x.rangeBand())
-      .attr("y", function (d) { return y(d.y1); })
-      .attr("height", function (d) { return y(d.y0) - y(d.y1); })
-      .style("fill", function(d) {return color(d.name);})
-      .on({
-        "mouseover": function() { this.style.strokeWidth = 1; this.style.stroke='black'; },
-        "mouseout":  function() { this.style.strokeWidth = 0; this.style.stroke=null; },
-        "click":  function() { /* do stuff */ },
-      });
-
-    var legend = svg.selectAll(".legend")
-      .data(color.domain().slice().reverse())
-      .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-    legend.append("rect")
-      .attr("x", width +20)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color);
-
-    legend.append("text")
-      .attr("x", width + 45)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "start")
-      .text(function(d) { return d; });
-
-  });
-
-</script>
+<div class="container">
+  <div class="page-header">
+    <h1>УкрТрансГаз - оперативна інформація</h1>
+  </div>
+  <div id="contents" class="panel panel-default">
+    <div id="panelProgress" class="panel-body">
+      <img src="spin.gif">
+    </div>
+    <div id="panelError" class="panel-body">
+      <div class="errorText"><h2>Не вдалось отримати дані. Спробуйте пізніше.</h2></div>
+    </div>
+    <div class="panel-body">
+      <div id="visualization" />
+    </div>
+  </div>
+</div>
+</body>
+</html>

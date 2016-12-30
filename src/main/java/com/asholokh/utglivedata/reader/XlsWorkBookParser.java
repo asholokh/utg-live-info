@@ -12,7 +12,7 @@ import com.asholokh.utglivedata.GasDto;
  * @autor a.sholokh
  */
 @Component
-public class XlsWorkBootParser {
+public class XlsWorkBookParser {
   public GasDto parse(XSSFWorkbook workBook) {
     XSSFCell ukrGazVydobuvannyaCell = workBook.getSheetAt(0).getRow(7).getCell(2);
     XSSFCell ukrNaftaCell = workBook.getSheetAt(0).getRow(8).getCell(2);
