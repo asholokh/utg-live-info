@@ -7,12 +7,17 @@ import org.springframework.stereotype.Component;
 import com.asholokh.utglivedata.GasDto;
 
 /**
- * TODO javadoc
+ * Reads a XLS workbook and creates {@link GasDto} object with data from this workbook.
  *
  * @autor a.sholokh
  */
 @Component
 public class XlsWorkBookParser {
+  /**
+   * Parses a given {@link XSSFWorkbook}.
+   * @param workBook Instance of {@link XSSFWorkbook}.
+   * @return Instance of {@link GasDto} which contains the data from this {@link XSSFWorkbook}.
+   */
   public GasDto parse(XSSFWorkbook workBook) {
     XSSFCell ukrGazVydobuvannyaCell = workBook.getSheetAt(0).getRow(7).getCell(2);
     XSSFCell ukrNaftaCell = workBook.getSheetAt(0).getRow(8).getCell(2);
