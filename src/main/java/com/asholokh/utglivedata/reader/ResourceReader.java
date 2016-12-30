@@ -43,7 +43,13 @@ public class ResourceReader {
   @Value("${gaz.production.data.url}")
   private String url;
 
-  public List<GasDto> readData() throws IOException, RarException {
+  /**
+   * Reads all data from resource defined via <code>url</code>.
+   * @return {@link List} of {@link GasDto}.
+   * @throws IOException
+   * @throws RarException
+   */
+  public List<GasDto> readAllData() throws IOException, RarException {
     List<GasDto> result = new ArrayList<>();
 
     RestTemplate restTemplate = new RestTemplate();

@@ -2,7 +2,6 @@ package com.asholokh.utglivedata;
 
 import java.io.IOException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,13 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@Ignore
 public class ResourceReaderTest {
   @Autowired
   private ResourceReader resourceReader;
 
   @Test
   public void testReadData() throws IOException, RarException {
-    Object result = resourceReader.readData();
+    Object result = resourceReader.readAllData();
 
     assertNotNull(result);
   }
