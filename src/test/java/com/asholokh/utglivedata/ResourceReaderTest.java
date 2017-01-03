@@ -2,6 +2,7 @@ package com.asholokh.utglivedata;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ResourceReaderTest {
   private ResourceReader resourceReader;
 
   @Test
+  @Ignore
   public void testReadData() throws IOException, RarException {
     Object result = resourceReader.readAllData();
 
