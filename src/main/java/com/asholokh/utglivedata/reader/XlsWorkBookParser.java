@@ -27,7 +27,6 @@ public class XlsWorkBookParser {
     dto.setUkrgazvydobuvannya(Double.valueOf(ukrGazVydobuvannyaCell.getNumericCellValue()).intValue());
     dto.setUkrnafta(Double.valueOf(ukrNaftaCell.getNumericCellValue()).intValue());
     dto.setOthers(Double.valueOf(othersCell.getNumericCellValue()).intValue());
-
     return dto;
   }
 }

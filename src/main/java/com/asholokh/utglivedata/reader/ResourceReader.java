@@ -85,17 +85,25 @@ public class ResourceReader {
   }
 
   private GasDto readWorkBookData(String fileName, InputStream res) throws IOException {
-    XSSFWorkbook workBook = new XSSFWorkbook(res);
-    GasDto dto = xlsWorkBootParser.parse(workBook);
+    XSSFWorkbook workBook = null;
+    try {
+      workBook = new XSSFWorkbook(res);
+      GasDto dto = xlsWorkBootParser.parse(workBook);
 
-    String day = fileName.split("_")[2].split("\\.")[0];
-    String month = fileName.split("_")[2].split("\\.")[1];
-    String year = fileName.split("_")[2].split("\\.")[2];
-    Calendar date = Calendar.getInstance();
-    date.set(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day));
+      String day = fileName.split("_")[2].split("\\.")[0];
+      String month = fileName.split("_")[2].split("\\.")[1];
+      String year = fileName.split("_")[2].split("\\.")[2];
+      Calendar date = Calendar.getInstance();
+      date.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
 
-    dto.setDate(date);
-    return dto;
+      dto.setDate(date);
+      return dto;
+    }  finally {
+      if (workBook != null) {
+        workBook.close();
+      }
+    }
+  }
   }
 
 }
