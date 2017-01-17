@@ -73,11 +73,12 @@ public class ResourceReader {
         IOUtils.copy(res.getBody(), outputStream);
         outputStream.close();
 
-        Archive archive = new Archive(file);
-        for (FileHeader fileHeader: archive.getFileHeaders()) {
-          String fileNameFromArchive = fileHeader.getFileNameString();
-          GasDto dto = readWorkBookData(fileNameFromArchive, archive.getInputStream(fileHeader));
-          result.add(dto);
+        try (Archive archive = new Archive(file)) {
+          for (FileHeader fileHeader : archive.getFileHeaders()) {
+            String fileNameFromArchive = fileHeader.getFileNameString();
+            GasDto dto = readWorkBookData(fileNameFromArchive, archive.getInputStream(fileHeader));
+            result.add(dto);
+          }
         }
       }
     }
@@ -85,7 +86,7 @@ public class ResourceReader {
   }
 
   private GasDto readWorkBookData(String fileName, InputStream res) throws IOException {
-    try(XSSFWorkbook workBook = new XSSFWorkbook(res)) {
+    try (XSSFWorkbook workBook = new XSSFWorkbook(res)) {
       GasDto dto = xlsWorkBootParser.parse(workBook);
 
       String day = fileName.split("_")[2].split("\\.")[0];
