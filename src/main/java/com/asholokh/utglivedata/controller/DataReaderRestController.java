@@ -43,7 +43,6 @@ public class DataReaderRestController {
    */
   @RequestMapping("/yearData")
   public List<GasDto> readYearData() throws IOException, RarException {
-    // TODO: Implement Yearly grouping
     return dataService.getYearData();
   }
 
@@ -55,7 +54,6 @@ public class DataReaderRestController {
    */
   @RequestMapping("/monthData")
   public List<GasDto> readMonthData() throws IOException, RarException {
-    // TODO: Implement Monthly grouping
     return dataService.getMonthData();
   }
 }

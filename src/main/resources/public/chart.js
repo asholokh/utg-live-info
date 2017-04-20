@@ -1,7 +1,7 @@
-var googleChartsApiLoaded = false;
 var chart = null;
 // Load the Visualization API and the corechart package.
-google.charts.load('visualization', {'packages':['corechart', 'bar']});
+google.charts.load('current', {'packages':['corechart', 'bar']});
+google.charts.setOnLoadCallback(createAndDrawChart(document.getElementById('all'), "year"));
 
 var months = ['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
 var monthsCased = ['Січня','Лютого','Березня','Квітеня','Травеня','Червеня','Липеня','Серпеня','Вересеня','Жовтеня','Листопада','Грудня'];
@@ -10,8 +10,7 @@ var arr = new Array(['Year', 'УГВ', 'Укрнафта', 'Інші', { role: '
 /**
  * Creates and populates a data table, instantiates the chart, passes the data into it.
  */
-function createAndDrawChart() {
-    showProgress();
+function createAndDrawChart(chartContainer, groupBy) {
     $.ajax({
         type: 'GET',
         url: '/utg-live-info/allData',
@@ -21,7 +20,10 @@ function createAndDrawChart() {
             var dates = new Array();
             $.each(data, function(index, element) {
                 var date = new Date(element.date);
-                date.setDate(1);
+                //FIXME: Consider ability in JavaScript to use Enumeration here instead of just String
+                if (groupBy == "year") {
+                    date.setDate(1);
+                }
                 date.setHours(0);
                 date.setMinutes(0);
                 date.setSeconds(0);
@@ -45,23 +47,26 @@ function createAndDrawChart() {
                 return a - b;
             });
             $.each(dates, function(index, element) {
-                arr.push([months[element.getMonth()]+' '+element.getFullYear(), dataGroupedByMonth[element].ugvData, dataGroupedByMonth[element].ukrnaftaData, dataGroupedByMonth[element].othersData, '']);
+                if (groupBy == "year") {
+                    arr.push([months[element.getMonth()]+' '+element.getFullYear(), dataGroupedByMonth[element].ugvData, dataGroupedByMonth[element].ukrnaftaData, dataGroupedByMonth[element].othersData, '']);
+                } else if (groupBy == "month") {
+                    arr.push(element.getDate() + ' ' + [monthsCased[element.getMonth()], dataGroupedByMonth[element].ugvData, dataGroupedByMonth[element].ukrnaftaData, dataGroupedByMonth[element].othersData, '']);
+                }
             });
 
             var dataForChart = google.visualization.arrayToDataTable(arr);
 
-            drawChart(dataForChart, getChartOptions());
-
-            showData();
+            drawChart(dataForChart, getChartOptions(), chartContainer);
         },
         error: function(errorResult) {
-            showError();
+         //   showError();
         }
     });
 }
 
 function getChartOptions() {
     return {
+        //FIXME: Here should not display current date - but two days before. Because UTG does not provide data update as of today but with two-days delay.
         title: "Надходження від газовидобувних підприємств України станом на " + getCurrentDate(),
         height: 500,
         isStacked: true,
@@ -77,9 +82,9 @@ function getChartOptions() {
     };
 }
 
-function drawChart(data, options) {
+function drawChart(data, options, chartContainer) {
     // Instantiate and draw our chart, passing in some options.
-    chart = new google.visualization.ColumnChart(document.getElementById('visualization'));
+    chart = new google.visualization.ColumnChart(chartContainer);
     chart.draw(data, options);
 }
 

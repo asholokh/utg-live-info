@@ -11,6 +11,8 @@
 package com.asholokh.utglivedata.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,31 +42,32 @@ public class GasDataService {
 
   public List<GasDto> getYearData() {
     updateDataIfNecessary();
-    List<GasDto> allData = dataHolder.getData();
-    return chooseDataForCurrentYear(allData);
+    return filterByCurrentCalendarField(dataHolder.getData(), Calendar.YEAR);
   }
 
   public List<GasDto> getMonthData() {
     updateDataIfNecessary();
-    List<GasDto> allData = dataHolder.getData();
-    return chooseDataForCurrentMonth(allData);
+    return filterByCurrentCalendarField(dataHolder.getData(), Calendar.MONTH);
   }
 
-  private List<GasDto> chooseDataForCurrentYear(List<GasDto> allData) {
-    return null;
-  }
+  private List<GasDto> filterByCurrentCalendarField(List<GasDto> initialData, int calendarField) {
+    List<GasDto> result = new ArrayList<>();
+    for (GasDto gasDto: initialData) {
+      int currentCalendarField = Calendar.getInstance().get(calendarField);
+      if (gasDto.getDate().get(calendarField) == currentCalendarField &&
+        (currentCalendarField != Calendar.MONTH || gasDto.getDate().get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR))) {
+        result.add(gasDto);
+      }
+    }
 
-  private List<GasDto> chooseDataForCurrentMonth(List<GasDto> allData) {
-    return null;
+    return result;
   }
 
   private void updateDataIfNecessary() {
     if (!dataHolder.isUpToDate()) {
       try {
         dataHolder.setData(resourceReader.readAllData());
-      } catch (IOException e) {
-        throw new ServiceException(e);
-      } catch (RarException e) {
+      } catch (IOException | RarException e) {
         throw new ServiceException(e);
       }
     }

@@ -1,8 +1,10 @@
 <html>
 <head>
   <!--Load the AJAX API-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +16,6 @@
 
   <title>УкрТрансГаз - оперативна інформація</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Application scripts-->
   <script src="chart.js"></script>
   <script src="application.js"></script>
@@ -29,14 +29,17 @@
     <h1>УкрТрансГаз - оперативна інформація</h1>
   </div>
   <div id="contents" class="panel panel-default">
-    <div id="panelProgress" class="panel-body">
-      <img src="spin.gif">
-    </div>
-    <div id="panelError" class="panel-body">
-      <div class="errorText"><h2>Не вдалось отримати дані. Спробуйте пізніше.</h2></div>
-    </div>
-    <div class="panel-body">
-      <div id="visualization" />
+    <ul class="nav nav-pills">
+      <li class="active"><a id="linkAll" data-toggle="pill" href="#all">All data</a></li>
+      <li><a data-toggle="pill" href="#yearly">Yearly</a></li>
+      <li><a data-toggle="pill" href="#monthly">Monthly</a></li>
+      <li><a data-toggle="pill" href="#daily">Daily</a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="all" class="tab-pane fade active" ></div>
+      <div id="yearly" class="tab-pane fade" ></div>
+      <div id="monthly" class="tab-pane fade" ></div>
+      <div id="daily" class="tab-pane fade" ></div>
     </div>
   </div>
 </div>
