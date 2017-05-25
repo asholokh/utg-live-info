@@ -17,17 +17,17 @@ $(document).ready(function() {
     $('a[href="#all"]').on('shown.bs.tab', function (e) {
         document.getElementById('all').innerHTML = '';
         console.log("Drawing chart for all data...");
-        createAndDrawChart(document.getElementById('all'), 'year');
+        createAndDrawChart(document.getElementById('all'), 'all');
     });
     $('a[href="#thisYear"]').on('shown.bs.tab', function (e) {
         document.getElementById('thisYear').innerHTML = '';
         console.log("Drawing chart for data for this year...");
-        createAndDrawChart(document.getElementById('thisYear'), 'year');
+        createAndDrawChart(document.getElementById('thisYear'), 'thisYear');
     });
     $('a[href="#thisMonth"]').on('shown.bs.tab', function (e) {
         document.getElementById('thisMonth').innerHTML = '';
         console.log("Drawing chart for data for this month...");
-        createAndDrawChartForThisMonth(document.getElementById('thisMonth'), 'month');
+        createAndDrawChart(document.getElementById('thisMonth'), 'thisMonth');
     });
 });
 
