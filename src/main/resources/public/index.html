@@ -17,6 +17,7 @@
   <title>УкрТрансГаз - оперативна інформація</title>
 
   <!-- Application scripts-->
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script src="chart.js"></script>
   <script src="application.js"></script>
   <!-- Application CSS -->
@@ -29,17 +30,15 @@
     <h1>УкрТрансГаз - оперативна інформація</h1>
   </div>
   <div id="contents" class="panel panel-default">
-    <ul class="nav nav-pills">
-      <li class="active"><a id="linkAll" data-toggle="pill" href="#all">All data</a></li>
-      <li><a data-toggle="pill" href="#yearly">Yearly</a></li>
-      <li><a data-toggle="pill" href="#monthly">Monthly</a></li>
-      <li><a data-toggle="pill" href="#daily">Daily</a></li>
+    <ul class="nav nav-pills" id="myTab">
+      <li><a id="linkAll" data-toggle="pill" href="#all">Весь період</a></li>
+      <li><a id="linkThisYear" data-toggle="pill" href="#thisYear">Цього року</a></li>
+      <li><a id="linkThisMonth" data-toggle="pill" href="#thisMonth">Цього місяця</a></li>
     </ul>
     <div class="tab-content">
-      <div id="all" class="tab-pane fade active" ></div>
-      <div id="yearly" class="tab-pane fade" ></div>
-      <div id="monthly" class="tab-pane fade" ></div>
-      <div id="daily" class="tab-pane fade" ></div>
+      <div id="all" class="tab-pane"></div>
+      <div id="thisYear" class="tab-pane"></div>
+      <div id="thisMonth" class="tab-pane"></div>
     </div>
   </div>
 </div>

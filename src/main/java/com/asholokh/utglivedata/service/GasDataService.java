@@ -42,20 +42,31 @@ public class GasDataService {
 
   public List<GasDto> getYearData() {
     updateDataIfNecessary();
-    return filterByCurrentCalendarField(dataHolder.getData(), Calendar.YEAR);
+    return filterByCurrentYear(dataHolder.getData());
   }
 
   public List<GasDto> getMonthData() {
     updateDataIfNecessary();
-    return filterByCurrentCalendarField(dataHolder.getData(), Calendar.MONTH);
+    return filterByCurrentMonth(dataHolder.getData());
   }
 
-  private List<GasDto> filterByCurrentCalendarField(List<GasDto> initialData, int calendarField) {
+  private List<GasDto> filterByCurrentYear(List<GasDto> initialData) {
     List<GasDto> result = new ArrayList<>();
-    for (GasDto gasDto: initialData) {
-      int currentCalendarField = Calendar.getInstance().get(calendarField);
-      if (gasDto.getDate().get(calendarField) == currentCalendarField &&
-        (currentCalendarField != Calendar.MONTH || gasDto.getDate().get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR))) {
+    for (GasDto gasDto : initialData) {
+      if (gasDto.getDate().get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)) {
+        result.add(gasDto);
+      }
+    }
+
+    return result;
+  }
+
+  private List<GasDto> filterByCurrentMonth(List<GasDto> initialData) {
+    List<GasDto> result = new ArrayList<>();
+    Calendar today = Calendar.getInstance();
+    for (GasDto gasDto : initialData) {
+      if (gasDto.getDate().get(Calendar.YEAR) == today.get(Calendar.YEAR)
+          && gasDto.getDate().get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
         result.add(gasDto);
       }
     }
