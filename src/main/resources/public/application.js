@@ -3,6 +3,16 @@ $.ajaxSetup({
 //Disable caching of AJAX responses
 });
 
+function showProgress(container) {
+    container.innerHTML = "<div style='border-width: 0;' class='panel-body text-center'><img src='ajax-loader.gif' /> <span>Дані завантажуються. Зачекайте, будь-ласка...</span></div>";
+}
+
+function prepareAndDrawChart(dataset) {
+    showProgress(document.getElementById(dataset));
+    console.log("Drawing chart for all data...");
+    createAndDrawChart(document.getElementById(dataset), dataset);
+}
+
 /**
  * Initialization after DOM is built.
  */
@@ -15,19 +25,13 @@ $(document).ready(function() {
         $('#myTab a:first').tab('show');
     });
     $('a[href="#all"]').on('shown.bs.tab', function (e) {
-        document.getElementById('all').innerHTML = '';
-        console.log("Drawing chart for all data...");
-        createAndDrawChart(document.getElementById('all'), 'all');
+        prepareAndDrawChart('all');
     });
     $('a[href="#thisYear"]').on('shown.bs.tab', function (e) {
-        document.getElementById('thisYear').innerHTML = '';
-        console.log("Drawing chart for data for this year...");
-        createAndDrawChart(document.getElementById('thisYear'), 'thisYear');
+        prepareAndDrawChart('thisYear');
     });
     $('a[href="#thisMonth"]').on('shown.bs.tab', function (e) {
-        document.getElementById('thisMonth').innerHTML = '';
-        console.log("Drawing chart for data for this month...");
-        createAndDrawChart(document.getElementById('thisMonth'), 'thisMonth');
+        prepareAndDrawChart('thisMonth');
     });
 });
 
