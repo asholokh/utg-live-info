@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ResourceReader {
       } else if (linkHref.endsWith(".rar")) {
         ClientHttpRequest req = restTemplate.getRequestFactory().createRequest(URI.create(url+linkHref), HttpMethod.GET);
         ClientHttpResponse res = req.execute();
-        File file = File.createTempFile("prefix", "sufix");
+        File file = Files.createTempFile("prefix", "sufix").toFile();
         OutputStream outputStream = new FileOutputStream(file);
         IOUtils.copy(res.getBody(), outputStream);
         outputStream.close();
